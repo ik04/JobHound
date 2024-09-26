@@ -15,3 +15,4 @@ export default function Home() {
 // * the goal of this project is to keep me consistent with applying everyday
 // * i'll have an apply counter, this board of links to refer to
 // * a page storing my resume and a page to store and edit cold emails
+// * attach a backend to this and host it on vps
