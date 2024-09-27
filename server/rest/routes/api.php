@@ -10,7 +10,7 @@ Route::prefix("v1")->group(function(){
     });
     Route::prefix("user")->group(function(){
         Route::post("/register",[UserController::class,"register"]);
-    });
+   });
 
     
     Route::prefix("get")->group(function(){});

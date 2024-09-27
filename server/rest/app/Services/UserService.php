@@ -8,9 +8,12 @@ use App\Exceptions\AlreadyPromotedException;
 use App\Exceptions\IncorrectPasswordException;
 use App\Exceptions\UserNotFoundException;
 use App\Models\User;
+use App\Models\UserCompanyLink;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Uuid;
 
 class UserService{
@@ -19,6 +22,7 @@ class UserService{
         $userId = User::select("id")->where("user_uuid",$userUuid)->first("id")->id;
         return $userId;
     }
+
     public function register(string $email,string $name, string $username, string $password, string $githubUrl, string $linkedinUrl){
         $user = User::create([
             "email" => $email,
@@ -30,6 +34,7 @@ class UserService{
         ]);
         return $user;
     }
+
     public function login(string $email, string $password){
         $user = User::where("email",$email)->first();
         if(!$user){
@@ -40,10 +45,10 @@ class UserService{
         }
         return $user;
     }
+
     public function logout(Request $request){
         $request->user()->tokens()->delete();
     }
-
 
     public function deleteUser(Uuid $userId){
         $user = User::where('id', $userId)->first();
@@ -55,11 +60,40 @@ class UserService{
     $user->delete();
 
     }
-    public function deleteOwnAccount(Request $request,Uuid $userUuid){
-        if ($userUuid !== $request->user()->user_uuid) {
+
+    public function deleteOwnAccount(Request $request,$userId){
+        if ($userId !== $request->user()->id) {
             return response()->json(["error" => "Unauthorized"], 401);
         }
         $request->user()->delete();
     }
+
+    public function seedCompanyLinks($userId){
+        $path = database_path("seeders/data/links.json");
+        if (!File::exists($path)) {
+            throw new \Exception("File not found at path: $path");
+        }
+        $jsonData = File::get($path);
+        $data = json_decode($jsonData, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Error decoding JSON: " . json_last_error_msg());
+        }
+        if (!isset($data['links'])) {
+            throw new \Exception("'links' key not found in JSON data.");
+        }
+        foreach ($data['links'] as $link) {
+            UserCompanyLink::create([
+                "title" => $link['title'],  
+                "link" => $link['link'],    
+                "user_id" => $userId
+            ]);
+        }
+        
+        return $data['links'];
+    }
+    
+    
+
+
 
 }
