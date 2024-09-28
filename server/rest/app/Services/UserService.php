@@ -35,8 +35,8 @@ class UserService{
         return $user;
     }
 
-    public function login(string $email, string $password){
-        $user = User::where("email",$email)->first();
+    public function login(string $login, string $password){
+        $user = User::where("email",$login)->orWhere("username",$login)->first();
         if(!$user){
             throw new UserNotFoundException(message:"User is not registered",code:400);
         }
