@@ -54,13 +54,10 @@ class UserService{
 
     public function deleteUser(int $userId){
         $user = User::where('id', $userId)->first();
-
     if (!$user) {
         return response()->json(["error" => "User not found"], 404);
     }
-
     $user->delete();
-
     }
 
     public function deleteOwnAccount(Request $request,$userId){
@@ -97,11 +94,9 @@ class UserService{
         if (!$user) {
             throw new UserNotFoundException("User not found!");
         }
-    
         $resumes = Resume::where('user_id', $userId)->get();
-    
         foreach ($resumes as $resume) {
-            $file = str_replace('/storage/', '', $resume->file_url); // Adjust the file path
+            $file = str_replace('/storage/', '', $resume->file_url); 
     
             if (Storage::disk('public')->exists($file)) {
                 Storage::disk('public')->delete($file);
