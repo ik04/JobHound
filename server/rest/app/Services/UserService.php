@@ -50,7 +50,7 @@ class UserService{
         $request->user()->tokens()->delete();
     }
 
-    public function deleteUser(Uuid $userId){
+    public function deleteUser(int $userId){
         $user = User::where('id', $userId)->first();
 
     if (!$user) {

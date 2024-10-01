@@ -24,7 +24,18 @@ class UserComapnyLinkService{
             "user_id" => $userId
         ]);
     }
-    public function getComanyLinks($userId){
-      $links = UserCompanyLink::where("title,link,user_id,id")->get();
+    public function getCompanyLinks($userId){
+      $links = UserCompanyLink::where("user_id",$userId)->select("title","link","user_id","id")->get();
+      return $links;
     } 
+    public function updateCompanyLink($userId, $linkId, $title, $link){
+        $link = UserCompanyLink::where("user_id",$userId)->where("id",$linkId)->first();
+        $link->title = $title;
+        $link->link = $link;
+        return $link;
+    }
+    public function deleteCompanyLink($userId, $linkId){
+        $link = UserCompanyLink::where("user_id",$userId)->where("id",$linkId)->first();
+        $link->delete();
+    }
 }

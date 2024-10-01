@@ -34,8 +34,7 @@ class UserController extends Controller
             $validated = $request->validated();
             $user = $this->service->login($validated["login"],$validated["password"]);
             $userToken = $user->createToken("myusertoken")->plainTextToken;
-            unset($user->id);
-            return response()->json(["user"=>$user,"user_token"=>$userToken],200)->withCookie(cookie()->forever('token',$userToken));
+             return response()->json(["user"=>$user,"user_token"=>$userToken],200)->withCookie(cookie()->forever('token',$userToken));
         }catch(UserNotFoundException $e){
             return response()->json(["message"=>$e->getMessage()],$e->getCode());
         }catch(IncorrectPasswordException $e){
@@ -43,5 +42,9 @@ class UserController extends Controller
         }catch(Exception $e){
             return response()->json(["message"=>$e->getMessage()],$e->getCode());
         }
+    }
+    
+    public function logout(Request $request){
+        $request->user()->tokens()->delete();
     }
 }
