@@ -7,6 +7,7 @@ use App\Exceptions\AlreadyDemotedException;
 use App\Exceptions\AlreadyPromotedException;
 use App\Exceptions\IncorrectPasswordException;
 use App\Exceptions\UserNotFoundException;
+use App\Models\Resume;
 use App\Models\User;
 use App\Models\UserCompanyLink;
 use Exception;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
 class UserService{
@@ -88,6 +90,24 @@ class UserService{
                 "user_id" => $userId
             ]);
         }
+    }
+
+    public function deleteUserAndFiles(int $userId) {
+        $user = User::find($userId);
+        if (!$user) {
+            throw new UserNotFoundException("User not found!");
+        }
+    
+        $resumes = Resume::where('user_id', $userId)->get();
+    
+        foreach ($resumes as $resume) {
+            $file = str_replace('/storage/', '', $resume->file_url); // Adjust the file path
+    
+            if (Storage::disk('public')->exists($file)) {
+                Storage::disk('public')->delete($file);
+            }
+        }
+        $user->delete();
     }
     
     
