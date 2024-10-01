@@ -26,8 +26,8 @@ class UserController extends Controller
             $validated["github_url"],
             $validated["linkedin_url"]
         );
-        $test = $this->service->seedCompanyLinks($user->id);
-         return response()->json(["message" => "registered successfully!", "test" => $test],201);        
+        $this->service->seedCompanyLinks($user->id);
+         return response()->json(["message" => "registered successfully!"],201);        
     }
     public function login(LoginUserRequest $request){
         try{

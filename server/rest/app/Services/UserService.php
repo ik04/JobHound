@@ -88,8 +88,6 @@ class UserService{
                 "user_id" => $userId
             ]);
         }
-        
-        return $data['links'];
     }
     
     
