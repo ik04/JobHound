@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   login: string;
@@ -21,6 +22,7 @@ const Page: React.FC = () => {
     login: "",
     password: "",
   });
+
   const [errors, setErrors] = useState<FormErrors>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,10 +55,9 @@ const Page: React.FC = () => {
           }
         );
         if (response.status === 200) {
-          // Handle successful login
           console.log("Login successful");
+          location.href = "/";
         } else {
-          // Handle login failure
           console.error("Login failed");
         }
       } catch (error) {
