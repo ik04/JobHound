@@ -14,6 +14,7 @@ const config: Config = {
         mainLighter: "#323232",
         highlightSecondary: "#FF14A8",
         highlight: "#14FFEC",
+        blueSecondary: "#0D7377",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
