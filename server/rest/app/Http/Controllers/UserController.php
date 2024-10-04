@@ -43,6 +43,35 @@ class UserController extends Controller
             return response()->json(["message"=>$e->getMessage()],$e->getCode());
         }
     }
+
+    public function getUserData(Request $request){
+            if(!$request->hasCookie("token")){
+                return response()->json([
+                    'error' => "Unauthenticated"
+                ],401);
+            }
+            if($token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->cookie("token"))){
+                $user = $token->tokenable;
+            }
+            else{
+                return response()->json([
+                    'error' => "unauthenticated"
+                ],401);
+            }
+            if(is_null($user)){
+                return response()->json([
+                    'error' => "Unauthenticated"
+                ],401);
+            }
+            return response() -> json([
+                'email' => $user->email,
+                'name' => $user->name,
+                'username' => $user->username,
+                'github_url' => $user->github_url,
+                'linkedin_url' => $user->linkedin_url,
+                'token' => $request -> cookie('token'),
+            ],200);
+        }
     
     public function logout(Request $request){
         $request->user()->tokens()->delete();

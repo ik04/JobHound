@@ -13,6 +13,7 @@ Route::prefix("v1")->group(function(){
     Route::prefix("user")->group(function(){
         Route::post("/register",[UserController::class,"register"]);
         Route::post("/login",[UserController::class,"login"]);
+        Route::get("/data",[UserController::class,"getUserData"]);
    });
 
     Route::middleware(["auth:sanctum"])->group(function(){

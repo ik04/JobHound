@@ -48,11 +48,7 @@ const Page: React.FC = () => {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/v1/user/login`,
           formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          { withCredentials: true }
         );
         if (response.status === 200) {
           console.log("Login successful");

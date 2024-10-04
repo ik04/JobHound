@@ -1,8 +1,13 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import React from "react";
 
-export default async function page() {
+export default async function SlipLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const cookieStore = cookies();
   const at = cookieStore.get("token");
   if (at == undefined || at == null) {
@@ -19,9 +24,9 @@ export default async function page() {
       }
     );
   } catch (err: any) {
-    if (err.status == 401) {
+    if (err.response.status == 401) {
       return redirect("/login");
     }
   }
-  return redirect("/dashboard/home");
+  return <div>{children}</div>;
 }
