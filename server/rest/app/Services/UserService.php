@@ -34,6 +34,7 @@ class UserService{
             "linkedin_url" => $linkedinUrl,
             "github_url" => $githubUrl
         ]);
+        unset($user["password"]);
         return $user;
     }
 
@@ -45,6 +46,7 @@ class UserService{
         if(!Hash::check($password,$user->password)){
             throw new IncorrectPasswordException(message:"Incorrect Password",code:400);
         }
+        unset($user["password"]);
         return $user;
     }
 

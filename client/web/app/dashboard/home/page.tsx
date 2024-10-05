@@ -1,4 +1,4 @@
-import { Home } from "@/components/pages/dashboard/home";
+import { Home } from "@/components/pages/dashboard/home/home";
 import React from "react";
 
 const page = () => {

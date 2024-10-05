@@ -74,7 +74,7 @@ const Page: React.FC = () => {
         );
         if (response.status === 200) {
           console.log("Registration successful");
-          router.push("/login"); // Use router to redirect
+          router.push("/login");
         } else {
           console.error("Registration failed");
         }

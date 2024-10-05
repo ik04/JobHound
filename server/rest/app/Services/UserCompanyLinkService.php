@@ -13,7 +13,7 @@ class UserCompanyLinkService{
         ]);
     }
     public function getCompanyLinks($userId){
-      $links = UserCompanyLink::where("user_id",$userId)->select("title","link","user_id","id")->get();
+      $links = UserCompanyLink::where("user_id",$userId)->select("title","link","id")->get();
       return $links;
     } 
     public function updateCompanyLink($userId, $linkId, $title, $link){
