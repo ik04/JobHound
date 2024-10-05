@@ -2,22 +2,10 @@
 
 namespace App\Services;
 
-use App\Enums\Role;
-use App\Exceptions\AlreadyDemotedException;
-use App\Exceptions\AlreadyPromotedException;
-use App\Exceptions\IncorrectPasswordException;
-use App\Exceptions\UserNotFoundException;
-use App\Models\User;
 use App\Models\UserCompanyLink;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Ramsey\Uuid\Uuid;
 
-class UserComapnyLinkService{
-    public function createComanyLink(string $title, string $link, $userId){
+class UserCompanyLinkService{
+    public function createCompanyLink(string $title, string $link, $userId){
         UserCompanyLink::create([
             "title" => $title,
             "link" => $link,

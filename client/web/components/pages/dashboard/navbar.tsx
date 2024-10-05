@@ -9,7 +9,7 @@ export const Navbar = () => {
     { name: "resume", href: "/dashboard/resume" },
   ];
   return (
-    <div className="h-28 bg-main flex items-center justify-between px-28">
+    <div className="h-24 bg-main flex items-center justify-between px-28">
       <Image alt="" src={"/assets/wolf.svg"} width={60} height={60} />
       <div className="navlinks flex space-x-3">
         {navLinks.map((link) => (

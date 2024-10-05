@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCompanyLinkRequest;
 use App\Http\Requests\UpdateCompanyLinkRequest;
-use App\Services\UserComapnyLinkService;
+use App\Services\UserComapanyLinkService;
+use App\Services\UserCompanyLinkService;
 use Illuminate\Http\Request;
 
 class UserCompanyLinkController extends Controller
 {
-    public function __construct(protected UserComapnyLinkService $service)
+    public function __construct(protected UserCompanyLinkService $service)
     {
     }
 
@@ -20,7 +21,7 @@ class UserCompanyLinkController extends Controller
 
     public function createCompanyLink(CreateCompanyLinkRequest $request){
     $validated = $request->validated();
-    $link = $this->service->createComanyLink($validated["title"],$validated["link"],$request->user()->id);
+    $link = $this->service->createCompanyLink($validated["title"],$validated["link"],$request->user()->id);
     return response()->json(["link" => $link,"message" => "link created!"]);
     }
 

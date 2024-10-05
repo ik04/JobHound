@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/pages/dashboard/navbar";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -28,5 +29,10 @@ export default async function SlipLayout({
       return redirect("/login");
     }
   }
-  return <div>{children}</div>;
+  return (
+    <div>
+      <Navbar />
+      {children}
+    </div>
+  );
 }
