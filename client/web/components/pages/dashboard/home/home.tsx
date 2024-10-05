@@ -32,6 +32,17 @@ export const Home = () => {
       callSites();
     }
   }, [user?.token]);
+
+  const chunkArray = (array: CompanyLink[], chunkSize: number) => {
+    const result: CompanyLink[][] = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  };
+
+  const companyLinkChunks = companyLinks ? chunkArray(companyLinks, 9) : [];
+
   return (
     <div className="min-h-[89.8vh] bg-main flex justify-center items-center">
       {/* this is retarded */}
@@ -41,20 +52,20 @@ export const Home = () => {
         navigation
         className="w-full max-w-[70%]"
       >
-        <SwiperSlide className="flex justify-center items-center">
-          <div className="h-[80vh] w-full grid grid-cols-3 gap-6 justify-center items-center">
-            {companyLinks?.map((link) => (
-              <CompanyLinkCard
-                title={link.title}
-                link={link.link}
-                id={link.id}
-              />
-            ))}
-          </div>
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center items-center">
-          <div className="h-[80vh] w-full bg-green-300"></div>
-        </SwiperSlide>
+        {companyLinkChunks.map((chunk, index) => (
+          <SwiperSlide key={index} className="flex justify-center items-center">
+            <div className="h-[80vh] w-full grid grid-cols-3 gap-6 justify-center items-center">
+              {chunk.map((link) => (
+                <CompanyLinkCard
+                  key={link.id} // Added key for each CompanyLinkCard
+                  title={link.title}
+                  link={link.link}
+                  id={link.id}
+                />
+              ))}
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
