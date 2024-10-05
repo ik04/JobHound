@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { CompanyLink } from "@/app/types/Api";
 import { CompanyLinkCard } from "./companyLinkCard";
+import { AddLinkButton } from "./addLinkButton";
 
 export const Home = () => {
   const { user } = useContext(GlobalContext);
@@ -63,6 +64,7 @@ export const Home = () => {
                   id={link.id}
                 />
               ))}
+              {index === companyLinkChunks.length - 1 && <AddLinkButton />}
             </div>
           </SwiperSlide>
         ))}
