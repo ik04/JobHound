@@ -72,9 +72,9 @@ const Page: React.FC = () => {
             },
           }
         );
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("Registration successful");
-          router.push("/login");
+          location.href = "/login";
         } else {
           console.error("Registration failed");
         }
