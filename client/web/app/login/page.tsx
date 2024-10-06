@@ -50,9 +50,12 @@ const Page: React.FC = () => {
           formData,
           { withCredentials: true }
         );
+
         if (response.status === 200) {
           console.log("Login successful");
-          location.href = "/";
+          const token = response.data.token;
+          document.cookie = `token=${token}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+          // location.href = "/";
         } else {
           console.error("Login failed");
         }
