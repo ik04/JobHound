@@ -13,7 +13,7 @@ import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 // todo: better validation and sanitization on serverside and client side
 // todo: handle errors everywhere
-export const AddLinkButton = () => {
+export const AddLinkButton = (handleAddition: () => void) => {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const addCompanyLink = async () => {
