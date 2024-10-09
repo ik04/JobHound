@@ -7,13 +7,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
+
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
 // todo: better validation and sanitization on serverside and client side
 // todo: handle errors everywhere
-export const AddLinkButton = (handleAddition: () => void) => {
+
+interface AddLinkButtonProps {
+  handleAddition: () => void;
+}
+
+export const AddLinkButton: React.FC<AddLinkButtonProps> = ({
+  handleAddition,
+}) => {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const addCompanyLink = async () => {

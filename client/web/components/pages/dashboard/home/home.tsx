@@ -44,6 +44,8 @@ export const Home = () => {
 
   const companyLinkChunks = companyLinks ? chunkArray(companyLinks, 9) : [];
 
+  const handleAddition = () => {};
+
   return (
     <div className="min-h-[89.8vh] bg-main flex justify-center items-center">
       {/* this is retarded */}
@@ -64,7 +66,9 @@ export const Home = () => {
                   id={link.id}
                 />
               ))}
-              {index === companyLinkChunks.length - 1 && <AddLinkButton />}
+              {index === companyLinkChunks.length - 1 && (
+                <AddLinkButton handleAddition={handleAddition} />
+              )}
             </div>
           </SwiperSlide>
         ))}
