@@ -15,7 +15,7 @@ import { AddLinkButton } from "./addLinkButton";
 
 export const Home = () => {
   const { user } = useContext(GlobalContext);
-  const [companyLinks, setCompanyLinks] = useState<CompanyLink[]>();
+  const [companyLinks, setCompanyLinks] = useState<CompanyLink[]>([]);
   const callSites = async () => {
     const resp = await axios.get(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/v1/get/company-links`,
@@ -44,7 +44,13 @@ export const Home = () => {
 
   const companyLinkChunks = companyLinks ? chunkArray(companyLinks, 9) : [];
 
-  const handleAddition = () => {};
+  const handleAddition = (companyLink: CompanyLink) => {
+    setCompanyLinks((prev) => [...prev, companyLink]);
+  };
+
+  const handleDeletion = (id: number) => {
+    setCompanyLinks((prev) => prev.filter((link) => link.id !== id));
+  };
 
   return (
     <div className="min-h-[89.8vh] bg-main flex justify-center items-center">
@@ -60,10 +66,9 @@ export const Home = () => {
             <div className="h-[80vh] w-full grid grid-cols-3 gap-6 justify-center items-center">
               {chunk.map((link) => (
                 <CompanyLinkCard
-                  key={link.id} // Added key for each CompanyLinkCard
-                  title={link.title}
-                  link={link.link}
-                  id={link.id}
+                  key={link.id}
+                  companyLink={link}
+                  handleDeletion={handleDeletion}
                 />
               ))}
               {index === companyLinkChunks.length - 1 && (

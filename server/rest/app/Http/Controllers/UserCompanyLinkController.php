@@ -31,7 +31,6 @@ class UserCompanyLinkController extends Controller
         return response()->json(["link" => $link],200);
     }
     public function deleteCompanyLink(Request $request, int $id){
-        $validated = $request->validated();
         $link = $this->service->deleteCompanyLink($request->user()->id, $id);
         return response()->json(["message" => "Link Removed!"],200);
     }

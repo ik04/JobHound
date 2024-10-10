@@ -8,6 +8,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import axios from "axios";
 
 const getFaviconUrl = (link: string) => {
   try {
@@ -19,8 +20,22 @@ const getFaviconUrl = (link: string) => {
   }
 };
 
-export const CompanyLinkCard = (companyLink: CompanyLink) => {
+interface CompanyLinkCardProps {
+  companyLink: CompanyLink;
+  handleDeletion: (id: number) => void;
+}
+
+export const CompanyLinkCard: React.FC<CompanyLinkCardProps> = ({
+  companyLink,
+  handleDeletion,
+}) => {
   const faviconUrl = getFaviconUrl(companyLink.link);
+  const deleteCompanyLink = async () => {
+    handleDeletion(companyLink.id);
+    const resp = await axios.delete(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/v1/delete/company-link/${companyLink.id}`
+    );
+  };
   return (
     <ContextMenu>
       <ContextMenuTrigger className="h-full">
@@ -38,7 +53,9 @@ export const CompanyLinkCard = (companyLink: CompanyLink) => {
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem className="text-highlight">Edit</ContextMenuItem>
-        <ContextMenuItem className="text-red-500">Delete</ContextMenuItem>
+        <ContextMenuItem onClick={deleteCompanyLink} className="text-red-500">
+          Delete
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );

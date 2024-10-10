@@ -12,11 +12,12 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
+import { CompanyLink } from "@/app/types/Api";
 // todo: better validation and sanitization on serverside and client side
 // todo: handle errors everywhere
 
 interface AddLinkButtonProps {
-  handleAddition: () => void;
+  handleAddition: (companyLink: CompanyLink) => void;
 }
 
 export const AddLinkButton: React.FC<AddLinkButtonProps> = ({
@@ -24,6 +25,7 @@ export const AddLinkButton: React.FC<AddLinkButtonProps> = ({
 }) => {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
+  const [open, setOpen] = useState(false);
   const addCompanyLink = async () => {
     if (!(title && link)) {
       toast({
@@ -37,9 +39,12 @@ export const AddLinkButton: React.FC<AddLinkButtonProps> = ({
       { title, link },
       { withCredentials: true }
     );
+    const companyLink = resp.data.link;
+    handleAddition(companyLink);
+    setOpen(false);
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex flex-col space-y-3 justify-center items-center bg-gray-700 rounded-xl h-full w-full">
         <p className="text-6xl text-highlight font-base">+</p>
         <p className="text-xl text-highlight font-base">Add Link</p>
