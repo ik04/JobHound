@@ -23,11 +23,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            pwd
             cd /var/www/JobHound/
             git pull origin main
             git status
             cd client/web
-            npm install -g pnpm   # Install pnpm
             pnpm install --only=prod
             pnpm build
             cd - 
