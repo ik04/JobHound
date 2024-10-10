@@ -17,10 +17,11 @@ class UserCompanyLinkService{
       $links = UserCompanyLink::where("user_id",$userId)->select("title","link","id")->get();
       return $links;
     } 
-    public function updateCompanyLink($userId, $linkId, $title, $link){
+    public function updateCompanyLink($userId, $linkId, $title, $linkUrl){
         $link = UserCompanyLink::where("user_id",$userId)->where("id",$linkId)->first();
         $link->title = $title;
-        $link->link = $link;
+        $link->link = $linkUrl;
+        $link->save();
         return $link;
     }
     public function deleteCompanyLink($userId, $linkId){

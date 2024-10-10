@@ -52,6 +52,12 @@ export const Home = () => {
     setCompanyLinks((prev) => prev.filter((link) => link.id !== id));
   };
 
+  const handleUpdation = (updatedLink: CompanyLink) => {
+    setCompanyLinks((prev) =>
+      prev.map((link) => (link.id === updatedLink.id ? updatedLink : link))
+    );
+  };
+
   return (
     <div className="min-h-[89.8vh] bg-main flex justify-center items-center">
       {/* this is retarded */}
@@ -66,6 +72,7 @@ export const Home = () => {
             <div className="h-[80vh] w-full grid grid-cols-3 gap-6 justify-center items-center">
               {chunk.map((link) => (
                 <CompanyLinkCard
+                  handleUpdate={handleUpdation}
                   key={link.id}
                   companyLink={link}
                   handleDeletion={handleDeletion}

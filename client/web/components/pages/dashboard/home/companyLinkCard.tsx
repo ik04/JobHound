@@ -1,7 +1,8 @@
+"use client";
 import { CompanyLink } from "@/app/types/Api";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -9,6 +10,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import axios from "axios";
+import { EditLinkButton } from "./editLinkButton";
 
 const getFaviconUrl = (link: string) => {
   try {
@@ -23,19 +25,27 @@ const getFaviconUrl = (link: string) => {
 interface CompanyLinkCardProps {
   companyLink: CompanyLink;
   handleDeletion: (id: number) => void;
+  handleUpdate: (updatedLink: CompanyLink) => void;
 }
 
 export const CompanyLinkCard: React.FC<CompanyLinkCardProps> = ({
   companyLink,
   handleDeletion,
+  handleUpdate,
 }) => {
   const faviconUrl = getFaviconUrl(companyLink.link);
+
   const deleteCompanyLink = async () => {
-    handleDeletion(companyLink.id);
-    const resp = await axios.delete(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/v1/delete/company-link/${companyLink.id}`
-    );
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/v1/delete/company-link/${companyLink.id}`
+      );
+      handleDeletion(companyLink.id); // Update parent state after deletion
+    } catch (error) {
+      console.error("Error deleting company link:", error);
+    }
   };
+
   return (
     <ContextMenu>
       <ContextMenuTrigger className="h-full">
@@ -52,7 +62,12 @@ export const CompanyLinkCard: React.FC<CompanyLinkCardProps> = ({
         </Link>
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem className="text-highlight">Edit</ContextMenuItem>
+        <div className="px-2">
+          <EditLinkButton
+            handleUpdate={handleUpdate}
+            companyLink={companyLink}
+          />
+        </div>
         <ContextMenuItem onClick={deleteCompanyLink} className="text-red-500">
           Delete
         </ContextMenuItem>
