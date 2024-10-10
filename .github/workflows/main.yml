@@ -1,19 +1,13 @@
 name: Deploy
 
-# Controls when the action will run.
 on:
-  # Triggers the workflow on push events but only for the main branch
   push:
     branches: [main]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "deploy"
   deploy:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Deploy using SSH
         uses: appleboy/ssh-action@master
@@ -23,6 +17,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            # Install Node.js and npm if not installed
+            if ! command -v npm &> /dev/null; then
+              curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+              sudo apt install -y nodejs
+            fi
+
             # Ensure pnpm is installed on the server
             if ! command -v pnpm &> /dev/null; then
               npm install -g pnpm
