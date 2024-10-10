@@ -63,7 +63,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-[89.8vh] bg-main flex justify-center items-center">
+    <div className="min-h-[89.8vh] bg-red-200 flex justify-center items-center">
       <Swiper
         modules={[Pagination, Navigation]}
         pagination={{ clickable: true }}
