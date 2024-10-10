@@ -9,7 +9,7 @@ export const Navbar = () => {
     { name: "resume", href: "/dashboard/resume" },
   ];
   return (
-    <div className="h-24 bg-red-500 flex items-center justify-between px-10 md:px-28">
+    <div className="h-24 bg-main flex items-center justify-between px-10 md:px-28">
       <Image
         alt=""
         src={"/assets/wolf.svg"}
