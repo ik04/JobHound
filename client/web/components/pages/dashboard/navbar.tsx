@@ -9,19 +9,31 @@ export const Navbar = () => {
     { name: "resume", href: "/dashboard/resume" },
   ];
   return (
-    <div className="h-24 bg-main flex items-center justify-between px-28">
-      <Image alt="" src={"/assets/wolf.svg"} width={60} height={60} />
+    <div className="h-24 bg-main flex items-center justify-between px-10 md:px-28">
+      <Image
+        alt=""
+        src={"/assets/wolf.svg"}
+        className="w-10 md:w-16"
+        width={60}
+        height={60}
+      />
       <div className="navlinks flex space-x-3">
         {navLinks.map((link) => (
           <Link
-            className="capitalize text-xl font-base text-highlight"
+            className="capitalize text-base md:text-xl font-base text-highlight"
             href={link.href}
           >
             {link.name}
           </Link>
         ))}
       </div>
-      <Image alt="" src={"/assets/profile.svg"} width={40} height={40} />
+      <Image
+        alt=""
+        className="w-8 md:w-12"
+        src={"/assets/profile.svg"}
+        width={40}
+        height={40}
+      />
     </div>
   );
 };

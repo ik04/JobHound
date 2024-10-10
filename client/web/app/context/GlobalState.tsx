@@ -7,6 +7,7 @@ import { UserData } from "../types/Context";
 
 export const GlobalState = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserData>();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const getUserData = async () => {
     try {
       const resp = await axios.get(
@@ -22,10 +23,23 @@ export const GlobalState = ({ children }: { children: ReactNode }) => {
       console.log("data fetch failed");
     }
   };
+  const checkIfMobile = () => {
+    if (window.innerWidth <= 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
   useEffect(() => {
     getUserData();
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
   return (
-    <GlobalContext.Provider value={{ user }}>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={{ user, isMobile }}>
+      {children}
+    </GlobalContext.Provider>
   );
 };

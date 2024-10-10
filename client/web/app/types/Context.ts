@@ -9,4 +9,5 @@ export interface UserData {
 
 export interface ContextValue {
   user: UserData;
+  isMobile: boolean;
 }
