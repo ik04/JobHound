@@ -23,13 +23,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            which node
+            export PATH=$PATH:/usr/local/bin:/usr/bin:/home/ubuntu/.npm-global/bin  # Adjust if necessary
             cd /var/www/JobHound/
             git pull origin main
             git status
             cd client/web
+            echo $PATH  # Debugging output
+            npm -v  # Check npm version
+            pnpm -v  # Check pnpm version
             pnpm install --only=prod
-            pnpm build
             cd - 
             cd server/rest
             composer install
