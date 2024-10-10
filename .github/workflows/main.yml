@@ -27,7 +27,9 @@ jobs:
             git pull origin main
             git status
             cd client/web
+            npm install -g pnpm   # Install pnpm
             pnpm install --only=prod
+            pnpm build
             cd - 
             cd server/rest
             composer install
