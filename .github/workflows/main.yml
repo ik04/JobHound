@@ -31,3 +31,5 @@ jobs:
             cd - 
             cd server/rest
             composer install
+            sudo systemctl restart frontend 
+            sudo systemctl restart backend
