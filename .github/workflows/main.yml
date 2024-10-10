@@ -15,6 +15,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.10.0
+
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
@@ -28,8 +33,6 @@ jobs:
             git pull origin main
             git status
             cd client/web
-            npm -v  # Check npm version
-            pnpm -v  # Check pnpm version
             pnpm install --only=prod
             cd - 
             cd server/rest
