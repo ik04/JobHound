@@ -15,11 +15,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9.10.0
-
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
