@@ -1,15 +1,21 @@
 name: Deploy
 
+# Controls when the action will run.
 on:
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [main]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Deploy using SSH
+      - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -17,37 +23,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            # Install Node.js and npm if not installed
-            if ! command -v npm &> /dev/null; then
-              curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-              sudo apt install -y nodejs
-            fi
-
-            # Ensure pnpm is installed on the server
-            if ! command -v pnpm &> /dev/null; then
-              npm install -g pnpm
-            fi
-
-            # Navigate to the project directory
             cd /var/www/JobHound/
-
-            # Pull the latest code from the main branch
             git pull origin main
-
-            # Check the status of the repository
             git status
-
-            # Install production dependencies for the client
             cd client/web
-            pnpm install --prod
-
-            # Go back to the project root
-            cd ../..
-
-            # Install PHP dependencies for the server
+            pnpm install --only=prod
+            cd - 
             cd server/rest
-            composer install --no-dev --prefer-dist
-
-            # Restart services
+            composer install
             sudo systemctl restart frontend 
             sudo systemctl restart backend
+            docker start nginx-base
