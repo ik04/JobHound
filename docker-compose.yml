@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   laravel:
     container_name: jobhound_backend
